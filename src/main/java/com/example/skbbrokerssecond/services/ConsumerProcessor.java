@@ -7,19 +7,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Service
 public class ConsumerProcessor {
 
-    @Autowired
-    Sender sender;
+//    @Autowired
+//    Sender sender;
 
     @Bean
-    public Consumer<IncomingMessage> provide(){
+    public Function<IncomingMessage, ToSend> provide(){
         return consumer -> {
             var message = new ToSend(consumer.getId(), "VALID", LocalDateTime.now().toString(), "test");
-            sender.publishProcessed(message);
+            return message;
         };
     }
 }
